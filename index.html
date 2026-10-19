@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101319">
+  <meta name="description" content="Campaign Lab, Mortgage Calculator, Marketing English Trainer and Weekend Together. Your collection of practical browser apps.">
+  <title>Our apps · CEVAN APPS</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23101319'/%3E%3Cpath d='M7 7h7v7H7zm11 0h7v7h-7zM7 18h7v7H7zm11 0h7v7h-7z' fill='%23f5ce63'/%3E%3C/svg%3E">
+  <style>
+    :root{color-scheme:dark;--bg:#101319;--surface:#1a1f27;--text:#f5f5f2;--muted:#adb5c1;--gold:#f5ce63;--border:#303741}
+    *{box-sizing:border-box}
+    html{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+    body{margin:0;min-height:100svh;background:radial-gradient(ellipse at 50% 0%,#242a36 0%,transparent 65%)}
+    button,a{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+    button{font:inherit;cursor:pointer}
+    .shell{max-width:1140px;margin:auto;padding:34px 40px 28px}
+    .masthead{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+    .brand{display:flex;align-items:center;gap:12px;font-size:.875rem;font-weight:700;letter-spacing:.14em}
+    .brand-mark{display:grid;grid-template-columns:repeat(2,7px);gap:4px;transform:rotate(-8deg)}
+    .brand-mark i{width:7px;height:7px;background:var(--gold);border-radius:1px}
+    .intro{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:34px 0 27px}
+    h1{margin:0;font-size:clamp(2rem,5vw,3.25rem);line-height:1.15;letter-spacing:-.04em;font-weight:800}
+    h1 span{color:var(--gold)}
+    .intro p{color:var(--muted);margin:11px 0 0;font-size:1rem;line-height:1.6}
+    .count{font-size:.875rem;color:var(--muted);border:1px solid var(--border);padding:9px 13px;border-radius:30px;white-space:nowrap}
+    .apps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+    .app{--accent:#80b8ff;--tint:#233750;display:flex;min-width:0;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:17px;overflow:hidden;text-decoration:none;color:inherit;transition:transform .18s,border-color .18s,box-shadow .18s}
+    .app.finance{--accent:#7ed5b3;--tint:#203b35}
+    .app.english{--accent:#c0a1ff;--tint:#342b49}
+    .app.weekend{--accent:#f1b476;--tint:#493529}
+    .card-body{display:flex;flex-direction:column;flex:1;padding:25px 26px 23px}
+    .card-top{display:flex;align-items:center;gap:15px;margin-bottom:19px}
+    .icon-box{display:grid;place-items:center;width:53px;height:53px;flex-shrink:0;border-radius:14px;background:var(--tint);color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 20%,transparent)}
+    .icon-box svg{width:27px;height:27px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+    .category{margin:0;color:var(--accent);font-size:.875rem;line-height:1.4}
+    .category small{display:block;color:var(--muted);font-size:.8125rem;margin-top:4px}
+    h2{margin:0;font-size:1.55rem;letter-spacing:-.025em;line-height:1.25;overflow-wrap:anywhere}
+    .description{margin:11px 0 18px;line-height:1.6;color:var(--muted);font-size:1rem;max-width:44ch}
+    .features{display:flex;gap:7px;flex-wrap:wrap;margin-top:auto;padding-top:1px;margin-bottom:24px}
+    .features span{color:#cad0d8;border:1px solid #373e48;background:#ffffff03;border-radius:6px;padding:5px 8px;font-size:.8125rem;line-height:1.4}
+    .open-app{display:flex;align-items:center;justify-content:center;gap:9px;border-radius:9px;background:var(--gold);color:#171914;font-size:1rem;font-weight:700;padding:12px 16px;line-height:1.5}
+    .open-app svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+    .app:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:5px}
+    .app:active{transform:translateY(1px)}
+    .note{display:flex;gap:9px;align-items:flex-start;margin:23px 0 0;font-size:.875rem;color:var(--muted);line-height:1.6}
+    .note svg{width:17px;height:17px;margin-top:2px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.5}
+    footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:35px;border-top:1px solid var(--border);padding-top:18px;color:#939daa;font-size:.8125rem;line-height:1.6}
+    @media(hover:hover){.app:hover{transform:translateY(-4px);border-color:#9e884e;box-shadow:0 14px 30px #0003}}
+    @media(max-width:740px){.shell{padding:25px 23px}.apps{gap:17px}.card-body{padding:22px 20px}h2{font-size:1.35rem}.features{margin-bottom:21px}.intro{padding:29px 0 24px}}
+    @media(max-width:560px){.shell{max-width:510px;padding:23px 19px}.apps{grid-template-columns:1fr;gap:19px}.masthead{padding-bottom:20px}.brand{font-size:.8125rem;letter-spacing:.11em}.intro{gap:14px}.intro p{max-width:24ch}h2{font-size:1.55rem}.card-body{padding:23px}.description{max-width:none}.features{margin-top:0}.note{margin-top:22px}footer{margin-top:28px}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important}.app:hover{transform:none}}
+  </style>
+</head>
+<body>
+  <!-- Add new application cards inside #apps. Keep their HTML files in apps/. -->
+  <div class="shell">
+    <header class="masthead">
+      <div class="brand"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>CEVAN APPS</div>
+    </header>
+    <main>
+      <div class="intro"><div><h1>Our apps<span>.</span></h1><p>Tools for work and everyday life.</p></div><span class="count" id="appCount">4 apps</span></div>
+      <div class="apps" id="apps">
+        <a class="app campaign" data-app="campaign" href="apps/Campaign-Lab.html" target="_blank" rel="noopener noreferrer" aria-label="Open Campaign Lab in a new tab">
+          <div class="card-body">
+            <div class="card-top"><span class="icon-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 3v18h18M7 15l5-5 4 3 5-7"/><path d="M17 6h4v4"/></svg></span><p class="category">Marketing &amp; analytics<small>Practice and decision-making</small></p></div>
+            <h2>Campaign Lab</h2><p class="description">Work through campaign cases, test your decisions and explore the simulator.</p>
+            <div class="features"><span>40 cases</span><span>120 questions</span><span>Simulator</span></div>
+            <span class="open-app"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 8h18M7 5.5h.01M10 5.5h.01"/></svg>Open app</span>
+          </div>
+        </a>
+        <a class="app finance" data-app="mortgage" href="apps/Hypotekarna_kalkulacka.html" target="_blank" rel="noopener noreferrer" aria-label="Open Mortgage Calculator in a new tab">
+          <div class="card-body">
+            <div class="card-top"><span class="icon-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7M5 9v11h14V9M9 20v-7h6v7"/></svg></span><p class="category">Personal finance<small>Planning your home purchase</small></p></div>
+            <h2>Mortgage Calculator</h2><p class="description">Compare repayments, extra payments and contributions from two people.</p>
+            <div class="features"><span>Repayment plan</span><span>2 people</span><span>PDF &amp; CSV</span></div>
+            <span class="open-app"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 8h18M7 5.5h.01M10 5.5h.01"/></svg>Open app</span>
+          </div>
+        </a>
+        <a class="app english" data-app="english" href="apps/Marketing_English_Trainer.html" target="_blank" rel="noopener noreferrer" aria-label="Open Marketing English Trainer in a new tab">
+          <div class="card-body">
+            <div class="card-top"><span class="icon-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5Z"/><path d="M8 9h8M8 13h5"/></svg></span><p class="category">English &amp; communication<small>Realistic marketing conversations</small></p></div>
+            <h2>Marketing English Trainer</h2><p class="description">Build confident answers for marketing meetings and practise with an optional ChatGPT tutor.</p>
+            <div class="features"><span>A2–C1</span><span>12 exercises</span><span>ChatGPT tutor</span></div>
+            <span class="open-app"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 8h18M7 5.5h.01M10 5.5h.01"/></svg>Open app</span>
+          </div>
+        </a>
+        <a class="app weekend" data-app="weekend" href="apps/Vikend_spolu.html" target="_blank" rel="noopener noreferrer" aria-label="Open Weekend Together in a new tab">
+          <div class="card-body">
+            <div class="card-top"><span class="icon-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 8V5a2 2 0 0 0-2-2H5a3 3 0 0 0 0 6h15v12H5a3 3 0 0 1-3-3V6"/><path d="M20 12h-4a2 2 0 0 0 0 4h4M17 14h.01"/></svg></span><p class="category">Shared expenses<small>Trips, friends and fair splits</small></p></div>
+            <h2>Weekend Together</h2><p class="description">Track shared payments, choose who splits each cost and see who owes whom.</p>
+            <div class="features"><span>Flexible groups</span><span>PDF export</span><span>Backup</span></div>
+            <span class="open-app"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 8h18M7 5.5h.01M10 5.5h.01"/></svg>Open app</span>
+          </div>
+        </a>
+      </div>
+      <p class="note" id="appNote"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg><span>Each app opens in a new tab.</span></p>
+    </main>
+    <footer><span>CEVAN APPS · Practical tools, one place.</span><span>Made for your browser.</span></footer>
+  </div>
+  <script>
+    const appCount = document.querySelectorAll('.app').length;
+    document.getElementById('appCount').textContent = appCount + (appCount === 1 ? ' app' : ' apps');
+  </script>
+</body>
+</html>
