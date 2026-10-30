@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111d31">
+<title>English Reader – text na prirodzenú reč</title>
+<style>
+:root{color-scheme:light;--bg:#f3f6fb;--panel:#fff;--ink:#18263b;--muted:#64748b;--line:#dce3ee;--accent:#15776d;--accent2:#105c54;--soft:#e7f5f1;--blue:#345eab;--shadow:0 8px 26px rgba(25,43,68,.045)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer;touch-action:manipulation}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(21,119,109,.36);outline-offset:2px}
+.wrap{max-width:1030px;margin:0 auto;padding:22px 18px 68px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:8px 0 24px}
+.brand{display:flex;align-items:center;gap:13px}.brand-icon{background:#132840;color:#fff;width:45px;height:45px;border-radius:14px;display:grid;place-items:center;flex:0 0 auto}
+.brand-icon svg{width:25px;height:25px}
+h1{font-size:25px;letter-spacing:-.7px;line-height:1.13;margin:0 0 4px}h2{font-size:17px;line-height:1.3;margin:0;font-weight:750;letter-spacing:-.25px}p{margin:0}
+.sub{color:var(--muted);font-size:13px}.tag{background:#e7ecef;color:#4a6071;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:700;white-space:nowrap;margin-top:7px}
+.stack{display:grid;gap:17px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}.pad{padding:21px 23px}.panelhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}.tiny{font-size:12px;color:var(--muted)}.mini{font-size:11px;color:var(--muted)}
+textarea{display:block;width:100%;min-height:155px;max-height:420px;resize:vertical;padding:14px;border-radius:11px;background:#fbfcff;border:1px solid #d3dce9;line-height:1.65;color:var(--ink);outline:none}
+textarea:focus{border-color:var(--accent)}textarea::placeholder{color:#91a0b2}
+.tools{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-top:12px}.tools .right{margin-left:auto}
+.btn{border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 13px;border-radius:11px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:41px;transition:background .15s,transform .08s}
+.btn:hover{background:#f1f5f9}.btn:active{transform:scale(.98)}.btn.primary{background:var(--accent);border-color:var(--accent);color:white}.btn.primary:hover{background:var(--accent2)}.btn.soft{background:var(--soft);border-color:#c9e7df;color:#11645c}.btn:disabled{cursor:not-allowed;opacity:.44}.btn svg{width:17px;height:17px;flex-shrink:0}
+input[type="file"]{display:none}.field-label{font-size:12px;font-weight:700;color:#34465e;display:block;margin-bottom:7px}.field{min-width:0}.settings{display:grid;grid-template-columns:minmax(210px,1.8fr) minmax(160px,1fr) minmax(140px,.7fr);gap:15px;border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:17px}
+select{width:100%;min-width:0;padding:10px 36px 10px 12px;border:1px solid #d3dce9;background:#fafcff;border-radius:10px;color:var(--ink);font-size:13px;height:42px}
+.range-wrap{display:flex;align-items:center;gap:10px;height:42px}input[type=range]{accent-color:var(--accent);cursor:pointer;width:100%;min-width:0}output{font-variant-numeric:tabular-nums;white-space:nowrap;color:#34465e;font-weight:750;font-size:13px}.switchline{display:flex;align-items:center;gap:7px;font-size:12px;color:#495b70}.switchline input{accent-color:var(--accent);width:15px;height:15px}
+.statusline{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}.state{display:flex;gap:8px;align-items:center;font-weight:700;font-size:13px}.dot{width:9px;height:9px;background:#94a3b8;border-radius:50%}.dot.playing{background:#1aa47d;box-shadow:0 0 0 4px #d7f5e8}.dot.paused{background:#d89923}.progressMeta{display:flex;justify-content:space-between;gap:6px;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.seek{width:100%;margin:4px 0 10px;height:20px;display:block}
+.controls{display:flex;gap:9px;align-items:stretch;flex-wrap:wrap;margin-top:11px}.controls .btn{flex:1 1 auto}.controls .play{flex:2 1 160px;min-height:49px;font-size:15px}.controls .secondary{flex:1 1 120px}
+.readerwrap{padding:0}.readerhead{padding:18px 23px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}.reader{padding:20px 24px 26px;min-height:250px;max-height:min(65vh,680px);overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.95;font-size:19px;scroll-behavior:smooth}.reader .word{border-radius:4px;cursor:pointer;transition:background .07s}.reader .word:hover{background:#e8f2fa}.reader .word.active{background:#d2f4a6;color:#153b25;box-shadow:0 2px 0 #79bb42;font-weight:650}.reader .word:focus-visible{outline:2px solid #2a9b87}.placeholder{color:#8c9cae;display:flex;align-items:center;justify-content:center;text-align:center;min-height:190px;font-size:14px;line-height:1.7}.reader-size{width:auto;height:36px;padding:7px 26px 7px 10px}
+.note{border-top:1px solid var(--line);padding:11px 23px;color:var(--muted);background:#fafcff;font-size:12px}.note strong{color:#34465e}.footer{text-align:center;color:#7a8899;font-size:12px;margin-top:19px}.hidden{display:none!important}.warn{color:#a14b1c!important}
+@media(max-width:670px){.wrap{padding:15px 12px 56px}.top{padding:6px 2px 18px}.brand{gap:10px}.brand-icon{width:39px;height:39px;border-radius:12px}h1{font-size:22px}.tag{display:none}.panel{border-radius:14px}.pad{padding:16px}.settings{grid-template-columns:1fr 1fr;gap:13px}.settings .voicefield{grid-column:1/-1}.btn{padding:10px}.readerhead{padding:14px 15px}.reader{padding:18px 15px;max-height:56vh;font-size:18px;line-height:1.88}.note{padding:11px 15px}.tools .right{margin-left:0}.controls .play{flex-basis:100%}.controls .secondary{flex-basis:calc(50% - 8px)}.control-stop{flex-basis:calc(50% - 8px)!important}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top"><div class="brand"><div class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h3l4 3V6L7 9H4Z"/><path d="M15 9a4 4 0 0 1 0 6M18 6a8 8 0 0 1 0 12"/></svg></div><div><h1>English Reader</h1><p class="sub">Počúvaj anglický text vlastným tempom.</p></div></div><span class="tag">HTML · Bez účtu</span></header>
+  <main class="stack">
+    <section class="panel pad" aria-labelledby="inputTitle"><div class="panelhead"><h2 id="inputTitle">1. Vlož anglický text</h2><span class="tiny" id="textCount">0 slov</span></div>
+      <textarea id="sourceText" spellcheck="false" placeholder="Sem vlož dlhší anglický text – článok, knihu, poznámky alebo vlastný text..."></textarea>
+      <div class="tools"><button id="prepareBtn" class="btn primary" type="button">Načítať na čítanie</button><label class="btn" for="fileInput" tabindex="0" role="button">Otvoriť súbor .txt</label><input type="file" id="fileInput" accept=".txt,.md,text/plain,text/markdown"><button id="exampleBtn" class="btn" type="button">Vzorový text</button><button id="clearBtn" class="btn right" type="button">Vymazať</button></div>
+      <p id="editHint" class="tiny" style="margin-top:11px" role="status">Text aj posledná pozícia sa ukladajú v tomto prehliadači.</p>
+    </section>
+    <section class="panel pad" aria-labelledby="playTitle"><div class="panelhead"><h2 id="playTitle">2. Nastav hlas a prehrávanie</h2></div>
+      <div class="settings"><div class="field voicefield"><label class="field-label" for="voiceSelect">Anglický hlas</label><select id="voiceSelect" aria-label="Vyber anglický hlas"><option value="">Predvolený hlas zariadenia</option></select></div>
+      <div class="field"><label class="field-label" for="speed">Rýchlosť reči</label><div class="range-wrap"><input type="range" id="speed" min="0.65" max="1.40" step="0.05" value="1.00"><output id="speedValue" for="speed">1,00×</output></div></div>
+      <div class="field"><label class="field-label" for="fontSize">Veľkosť písma</label><select id="fontSize"><option value="17">Menšia</option><option value="19" selected>Štandardná</option><option value="23">Väčšia</option><option value="27">Veľká</option></select></div></div>
+      <div class="statusline"><div class="state" aria-live="polite"><i class="dot" id="stateDot"></i><span id="stateLabel">Pripravené na čítanie</span></div><label class="switchline"><input id="followToggle" type="checkbox" checked> Sledovať práve čítaný text</label></div>
+      <input type="range" id="seek" class="seek" min="0" max="1000" value="0" aria-label="Presunúť pozíciu v texte" disabled>
+      <div class="progressMeta"><span id="positionLabel">Pozícia: 0 %</span><span id="wordLabel">0 / 0 slov</span></div>
+      <div class="controls"><button id="playBtn" class="btn primary play" type="button" disabled><span id="playIcon">▶</span><span id="playLabel">Prehrať</span></button><button id="prevBtn" class="btn secondary" type="button" disabled>↶ Predošlá veta</button><button id="nextBtn" class="btn secondary" type="button" disabled>Ďalšia veta ↷</button><button id="stopBtn" class="btn control-stop" type="button" disabled>■ Zastaviť</button><button id="startBtn" class="btn control-stop" type="button" disabled>↤ Na začiatok</button></div>
+    </section>
+    <section class="panel readerwrap" aria-labelledby="readerTitle"><div class="readerhead"><h2 id="readerTitle">3. Text na čítanie</h2><span class="tiny">Klikni na slovo, od ktorého chceš pokračovať</span></div>
+      <div class="reader" id="reader" aria-label="Anglický text. Kliknutím na slovo spustíš čítanie od daného miesta."><div class="placeholder">Vlož text vyššie a stlač „Načítať na čítanie“.<br>Potom môžeš prehrávať aj preskakovať medzi vetami.</div></div>
+      <div class="note"><strong>Tip:</strong> Ťukni na ľubovoľné slovo, použi posuvník alebo tlačidlá na preskočenie vety. Zvýrazňovanie počas reči závisí od podpory hlasu v prehliadači.</div>
+    </section>
+  </main><footer class="footer">Text sa neodosiela na server aplikácie. Výslovnosť a dostupnosť hlasov závisia od zariadenia a prehliadača.</footer>
+</div>
+<script>
+(()=>{'use strict';
+  const $=id=>document.getElementById(id);
+  const el={source:$('sourceText'),count:$('textCount'),prepare:$('prepareBtn'),file:$('fileInput'),example:$('exampleBtn'),clear:$('clearBtn'),editHint:$('editHint'),voice:$('voiceSelect'),speed:$('speed'),speedValue:$('speedValue'),font:$('fontSize'),state:$('stateLabel'),dot:$('stateDot'),follow:$('followToggle'),seek:$('seek'),position:$('positionLabel'),words:$('wordLabel'),play:$('playBtn'),playLabel:$('playLabel'),playIcon:$('playIcon'),prev:$('prevBtn'),next:$('nextBtn'),stop:$('stopBtn'),start:$('startBtn'),reader:$('reader')};
+  const STORAGE='english-reader-v1';
+  const enabled=('speechSynthesis' in window && 'SpeechSynthesisUtterance' in window);
+  const synth=enabled?window.speechSynthesis:null;
+  let source='',chunks=[],sentences=[],words=[],cursor=0,wordIndex=-1;
+  let state='idle',voiceList=[],generation=0,nativePaused=false,currentUtterance=null;
+  let savedVoice='',persistTimer=0,renderTimer=0,seekDragging=false;
+  let currentTextChanged=false;
+
+  function readSaved(){try{return JSON.parse(localStorage.getItem(STORAGE)||'{}')||{}}catch{return {}}}
+  function persistNow(){clearTimeout(persistTimer);try{localStorage.setItem(STORAGE,JSON.stringify({source:el.source.value,cursor:source===el.source.value?cursor:0,voice:el.voice.value||savedVoice,rate:Number(el.speed.value),font:el.font.value,follow:el.follow.checked}))}catch{el.editHint.textContent='Údaje sa nepodarilo uložiť. Skontroluj povolenie úložiska v prehliadači.';el.editHint.classList.add('warn')}}
+  function persistSoon(){clearTimeout(persistTimer);persistTimer=setTimeout(persistNow,850)}
+  function countWords(text){return (text.match(/\S+/gu)||[]).length}
+  function updateCount(){el.count.textContent=countWords(el.source.value).toLocaleString('sk-SK')+' slov'}
+  function setStatus(label){el.state.textContent=label;el.dot.className='dot'+(state==='playing'?' playing':state==='paused'?' paused':'');el.playLabel.textContent=state==='playing'?'Pauza':state==='paused'?'Pokračovať':cursor>0?'Pokračovať od pozície':'Prehrať';el.playIcon.textContent=state==='playing'?'Ⅱ':'▶'}
+  function updateButtons(){const has=!!source.trim()&&enabled;for(const b of [el.play,el.prev,el.next,el.stop,el.start])b.disabled=!has;el.seek.disabled=!has}
+
+  // Sentence boundaries are used for next/previous navigation and for natural chunking.
+  function segmentSentences(text){
+    let segments=[];
+    if(typeof Intl!=='undefined' && Intl.Segmenter){
+      try{const seg=new Intl.Segmenter('en',{granularity:'sentence'});for(const item of seg.segment(text)){segments.push({start:item.index,end:item.index+item.segment.length})}}catch{}
+    }
+    if(!segments.length){let reg=/[^.!?\n]+[.!?]+(?:["'”’\])]+)?\s*|[^.!?\n]+(?:\n|$)|\n+/gu, m;while((m=reg.exec(text)))segments.push({start:m.index,end:reg.lastIndex})}
+    if(!segments.length&&text)segments=[{start:0,end:text.length}];
+    return segments;
+  }
+  function computeChunks(text,parts){
+    const MAX=215, arr=[];
+    let start=0;
+    while(start<text.length){
+      let end=start;
+      // Prefer complete sentences, but never pass excessively long text to TTS.
+      for(const p of parts){if(p.end<=start)continue;if(p.end-start<=MAX){end=p.end;continue}break}
+      if(end<=start){let limit=Math.min(start+MAX,text.length);if(limit===text.length)end=limit;else{
+        const candidate=text.slice(start,limit).search(/\s+\S*$/u);
+        end=candidate>=90?start+candidate+1:limit;
+      }}
+      if(end<=start)end=Math.min(start+MAX,text.length);
+      arr.push({start,end});start=end;
+    }
+    return arr;
+  }
+  function wordNumber(position){let lo=0,hi=words.length;while(lo<hi){const mid=(lo+hi)>>1;if(words[mid].start<=position)lo=mid+1;else hi=mid}return Math.max(0,lo-1)}
+  function snapToWord(pos){if(!words.length)return 0;const i=wordNumber(Math.max(0,Math.min(source.length-1,pos)));if(words[i].end<=pos&&i+1<words.length)return words[i+1].start;return words[i].start}
+  function chunkFor(position){let lo=0,hi=chunks.length-1;while(lo<=hi){let m=(lo+hi)>>1;if(position<chunks[m].start)hi=m-1;else if(position>=chunks[m].end)lo=m+1;else return m}return Math.min(chunks.length-1,lo)}
+  function highlightAt(position,scroll=false){
+    if(!words.length)return;
+    const i=wordNumber(Math.min(Math.max(0,position),source.length-1));
+    if(i!==wordIndex){if(wordIndex>=0&&words[wordIndex].element)words[wordIndex].element.classList.remove('active');wordIndex=i;words[i].element.classList.add('active')}
+    if(scroll&&el.follow.checked){const node=words[i].element, a=node.getBoundingClientRect(), r=el.reader.getBoundingClientRect();if(a.top<r.top+45||a.bottom>r.bottom-45){el.reader.scrollTo({top:el.reader.scrollTop+(a.top-r.top)-(r.height*.37),behavior:'smooth'})}}
+  }
+  function updateProgress(scroll=false){
+    const percent=source.length?Math.floor(cursor/source.length*100):0;
+    if(!seekDragging)el.seek.value=source.length?Math.round(cursor/source.length*1000):0;
+    el.position.textContent='Pozícia: '+percent+' %';el.words.textContent=(words.length?(Math.min(words.length,wordNumber(cursor)+1)).toLocaleString('sk-SK'):0)+' / '+words.length.toLocaleString('sk-SK')+' slov';
+    if(source&&cursor<source.length)highlightAt(cursor,scroll);
+    else if(source&&words.length)highlightAt(source.length-1,false);
+  }
+  function showSource(text,position=0){
+    cancelSpeech();source=text;cursor=Math.max(0,Math.min(text.length,Number(position)||0));currentTextChanged=false;
+    el.reader.replaceChildren();words=[];wordIndex=-1;
+    if(!text.trim()){chunks=[];sentences=[];el.reader.innerHTML='<div class="placeholder">Vlož text vyššie a stlač „Načítať na čítanie“.<br>Potom môžeš prehrávať aj preskakovať medzi vetami.</div>';setStatus(enabled?'Pripravené na čítanie':'Tento prehliadač nepodporuje hlasové čítanie');updateButtons();updateProgress();return}
+    sentences=segmentSentences(text);chunks=computeChunks(text,sentences);
+    const frag=document.createDocumentFragment();const reg=/\S+|\s+/gu;let match;
+    while((match=reg.exec(text))){const value=match[0],start=match.index;if(/^\s+$/u.test(value)){frag.appendChild(document.createTextNode(value));continue}const span=document.createElement('span');span.className='word';span.textContent=value;span.dataset.offset=String(start);span.tabIndex=-1;frag.appendChild(span);words.push({start,end:start+value.length,element:span})}
+    el.reader.appendChild(frag);
+    cursor=cursor>=text.length?0:snapToWord(cursor);
+    updateButtons();setStatus(enabled?'Text pripravený na počúvanie':'Tento prehliadač nepodporuje hlasové čítanie');updateProgress(false);persistSoon();
+  }
+  function cancelSpeech(){generation++;nativePaused=false;currentUtterance=null;if(synth){try{synth.cancel()}catch{}}state='idle'}
+  function chosenVoice(){return voiceList.find(v=>v.voiceURI+'|'+v.name+'|'+v.lang===el.voice.value)||null}
+  function speakFrom(position){
+    if(!enabled){setStatus('Tento prehliadač nepodporuje čítanie textu');return}
+    if(!source.trim())return;
+    cancelSpeech();
+    cursor=Math.min(Math.max(0,snapToWord(position)),source.length-1);
+    state='playing';setStatus('Čítanie...');updateProgress(true);persistSoon();
+    speakNext(cursor,generation);
+  }
+  function speakNext(position,token){
+    if(token!==generation||state!=='playing')return;
+    if(position>=source.length){state='idle';cursor=source.length;setStatus('Text bol dočítaný');updateProgress();persistSoon();return}
+    let i=chunkFor(position),chunk=chunks[i];if(!chunk)return;
+    // Skip whitespace-only chunks safely.
+    const content=source.slice(position,chunk.end);
+    if(!content.trim()){cursor=chunk.end;speakNext(cursor,token);return}
+    const u=new SpeechSynthesisUtterance(content);currentUtterance=u;u.lang=chosenVoice()?.lang||'en-US';u.voice=chosenVoice();u.rate=Number(el.speed.value);u.pitch=1;u.volume=1;
+    u.onstart=()=>{if(token===generation&&state==='playing'){setStatus('Čítanie...');}};
+    u.onboundary=(evt)=>{if(token!==generation||state!=='playing')return;if(!Number.isFinite(evt.charIndex))return;cursor=Math.min(chunk.end,position+Math.max(0,evt.charIndex));updateProgress(true);persistSoon()};
+    u.onend=()=>{if(token!==generation||state!=='playing')return;cursor=chunk.end;updateProgress(true);persistSoon();speakNext(cursor,token)};
+    u.onerror=(evt)=>{if(token!==generation)return;if(evt.error==='canceled'||evt.error==='interrupted')return;state='idle';nativePaused=false;setStatus(evt.error==='not-allowed'?'Povoľ prehrávanie zvuku a skús znova':'Nepodarilo sa prečítať úsek ('+(evt.error||'neznáma chyba')+')');persistSoon()};
+    try{synth.speak(u)}catch(err){state='idle';setStatus('Spustenie hlasu zlyhalo: '+(err.message||'chyba'))}
+  }
+  function pauseOrPlay(){
+    if(!source.trim())return;
+    if(state==='playing'){
+      state='paused';nativePaused=false;
+      try{synth.pause();nativePaused=!!synth.paused}catch{}
+      if(!nativePaused){generation++;try{synth.cancel()}catch{}currentUtterance=null}
+      setStatus('Pozastavené');updateProgress();persistSoon();return;
+    }
+    if(state==='paused'){
+      if(nativePaused){state='playing';nativePaused=false;try{synth.resume()}catch{}if(!synth.speaking&&!synth.pending){speakFrom(cursor)}else setStatus('Čítanie...')}
+      else speakFrom(cursor);
+      return;
+    }
+    speakFrom(cursor>=source.length?0:cursor);
+  }
+  function goTo(position,forcePlay=false){
+    if(!source.trim())return;
+    const wasPlaying=state==='playing';cancelSpeech();
+    cursor=snapToWord(Math.max(0,Math.min(source.length-1,position)));
+    updateProgress(true);setStatus('Pozícia nastavená');persistSoon();
+    if(forcePlay||wasPlaying)speakFrom(cursor);
+  }
+  function adjacentSentence(dir){
+    if(!sentences.length)return;
+    const starts=sentences.filter(s=>source.slice(s.start,s.end).trim()).map(s=>snapToWord(s.start));
+    if(!starts.length)return;
+    let target;
+    if(dir>0){target=starts.find(x=>x>cursor+2);if(target===undefined)target=source.length-1}
+    else{target=starts[0];for(let i=starts.length-1;i>=0;i--)if(starts[i]<cursor-2){target=starts[i];break}}
+    goTo(target);
+  }
+  function voicePriority(v){const n=v.name.toLowerCase();let score=0;if(/natural|neural|enhanced|premium|high quality/.test(n))score+=80;if(/google/.test(n))score+=24;if(/microsoft/.test(n))score+=15;if(/en-us/i.test(v.lang))score+=5;if(v.localService)score+=2;if(/compact|espeak/.test(n))score-=20;return score}
+  function updateVoices(){if(!synth)return;const voices=synth.getVoices();if(!voices.length)return;voiceList=voices.filter(v=>/^en([-_]|$)/i.test(v.lang)).sort((a,b)=>voicePriority(b)-voicePriority(a)||a.name.localeCompare(b.name));
+    const previous=el.voice.value||savedVoice;el.voice.replaceChildren();
+    const def=document.createElement('option');def.value='';def.textContent='Predvolený anglický hlas';el.voice.appendChild(def);
+    for(const v of voiceList){const opt=document.createElement('option');opt.value=v.voiceURI+'|'+v.name+'|'+v.lang;opt.textContent=v.name+' · '+v.lang+(v.localService?' · v zariadení':'');el.voice.appendChild(opt)}
+    if([...el.voice.options].some(o=>o.value===previous))el.voice.value=previous;else if(voiceList.length)el.voice.value=voiceList[0].voiceURI+'|'+voiceList[0].name+'|'+voiceList[0].lang;
+    savedVoice=el.voice.value;
+  }
+  function applyVoiceChange(){savedVoice=el.voice.value;persistSoon();if(state==='playing')speakFrom(cursor);else if(state==='paused'){cancelSpeech();state='paused';setStatus('Pozastavené — nový hlas pripravený')}}
+  function applyRateChange(){el.speedValue.textContent=Number(el.speed.value).toFixed(2).replace('.',',')+'×';persistSoon();if(state==='playing')speakFrom(cursor);else if(state==='paused'){cancelSpeech();state='paused';setStatus('Pozastavené — nová rýchlosť pripravená')}}
+
+  el.prepare.addEventListener('click',()=>{if(!el.source.value.trim()){el.editHint.textContent='Najprv vlož text v angličtine.';el.editHint.classList.add('warn');el.source.focus();return}showSource(el.source.value,source===el.source.value?cursor:0);el.editHint.textContent='Text je načítaný. Klikni na Prehrať alebo na ľubovoľné slovo nižšie.';el.editHint.classList.remove('warn')});
+  el.source.addEventListener('input',()=>{updateCount();currentTextChanged=el.source.value!==source;if(currentTextChanged){el.editHint.textContent='Text bol zmenený. Na použitie novej verzie klikni na „Načítať na čítanie“.';el.editHint.classList.remove('warn')}persistSoon()});
+  el.file.addEventListener('change',async()=>{const file=el.file.files&&el.file.files[0];if(!file)return;try{const text=await file.text();el.source.value=text;updateCount();showSource(text,0);el.editHint.textContent='Súbor '+file.name+' bol načítaný.';el.editHint.classList.remove('warn')}catch{el.editHint.textContent='Súbor sa nepodarilo načítať.';el.editHint.classList.add('warn')}el.file.value=''});
+  el.example.addEventListener('click',()=>{const demo=`Learning English becomes easier when you listen to it every day. Instead of memorizing long lists of vocabulary, try to understand the meaning of a complete sentence.\n\nImagine that you are traveling through a beautiful city on a sunny afternoon. You stop at a little coffee shop, order a drink, and start a conversation with the person sitting next to you.\n\nWith regular practice, familiar sounds and expressions become easier to recognize. You can pause the recording, return to a difficult sentence, and listen again until you understand it clearly.\n\nThe most important thing is consistency. Even ten minutes of focused listening can make a difference over time.`;el.source.value=demo;updateCount();showSource(demo,0);el.editHint.textContent='Vzorový text je načítaný. Môžeš spustiť čítanie.';el.editHint.classList.remove('warn')});
+  el.clear.addEventListener('click',()=>{el.source.value='';updateCount();showSource('',0);el.editHint.textContent='Text bol vymazaný.';el.editHint.classList.remove('warn');persistNow()});
+  el.reader.addEventListener('click',event=>{const word=event.target.closest('[data-offset]');if(word&&el.reader.contains(word))goTo(Number(word.dataset.offset),true)});
+  el.play.addEventListener('click',pauseOrPlay);
+  el.prev.addEventListener('click',()=>adjacentSentence(-1));el.next.addEventListener('click',()=>adjacentSentence(1));
+  el.stop.addEventListener('click',()=>{cancelSpeech();setStatus('Zastavené — pozícia zostala uložená');persistSoon()});
+  el.start.addEventListener('click',()=>goTo(0));
+  el.seek.addEventListener('input',()=>{seekDragging=true;el.position.textContent='Nová pozícia: '+Math.round(Number(el.seek.value)/10)+' %'});
+  el.seek.addEventListener('change',()=>{const target=Math.floor(Number(el.seek.value)/1000*source.length);seekDragging=false;goTo(target)});
+  el.voice.addEventListener('change',applyVoiceChange);el.speed.addEventListener('input',()=>{el.speedValue.textContent=Number(el.speed.value).toFixed(2).replace('.',',')+'×'});el.speed.addEventListener('change',applyRateChange);
+  el.font.addEventListener('change',()=>{el.reader.style.fontSize=el.font.value+'px';persistSoon()});el.follow.addEventListener('change',persistSoon);
+  document.addEventListener('keydown',event=>{if(event.code==='Space'&&event.ctrlKey&&!['TEXTAREA','INPUT','SELECT'].includes(document.activeElement?.tagName)){event.preventDefault();pauseOrPlay()}});
+  window.addEventListener('pagehide',persistNow);
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')persistNow()});
+  const saved=readSaved();if(typeof saved.source==='string')el.source.value=saved.source;
+  if(saved.rate>=.65&&saved.rate<=1.4)el.speed.value=String(saved.rate);
+  el.speedValue.textContent=Number(el.speed.value).toFixed(2).replace('.',',')+'×';
+  if(['17','19','23','27'].includes(saved.font))el.font.value=saved.font;
+  el.reader.style.fontSize=el.font.value+'px';if(typeof saved.follow==='boolean')el.follow.checked=saved.follow;
+  savedVoice=saved.voice||'';updateCount();showSource(el.source.value,saved.cursor||0);
+  if(enabled){updateVoices();synth.addEventListener?.('voiceschanged',updateVoices);setTimeout(updateVoices,250);setTimeout(updateVoices,1250)}else {el.voice.disabled=true;el.speed.disabled=true;setStatus('Hlasové čítanie nie je podporované. Skús Chrome alebo Edge.');updateButtons()}
+})();
+</script>
+</body>
+</html>
